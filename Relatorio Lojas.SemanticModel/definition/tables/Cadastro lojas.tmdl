@@ -1,0 +1,76 @@
+table 'Cadastro lojas'
+	lineageTag: 2391d0d8-9cf4-4c57-ae5c-200b081c46c3
+
+	column 'Id Loja'
+		dataType: int64
+		formatString: 0
+		lineageTag: 21e67e38-44b8-49ac-ba66-3082c364af41
+		summarizeBy: none
+		sourceColumn: Id Loja
+
+		annotation SummarizationSetBy = Automatic
+
+	column País
+		dataType: string
+		lineageTag: a0ee3eaa-fe4a-4c11-8c69-4bed087ca92f
+		summarizeBy: none
+		sourceColumn: País
+
+		annotation SummarizationSetBy = Automatic
+
+	column Continente
+		dataType: string
+		lineageTag: 7cab6310-e8d2-484e-97e4-a80f7be21913
+		dataCategory: Continent
+		summarizeBy: none
+		sourceColumn: Continente
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cidade
+		dataType: string
+		lineageTag: 63897072-5d5a-4202-8777-ba9ae1d8e346
+		summarizeBy: none
+		sourceColumn: Cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo Loja'
+		dataType: string
+		lineageTag: 6d95805c-408f-4d32-9316-e76bc915053c
+		summarizeBy: none
+		sourceColumn: Tipo Loja
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gerente
+		dataType: string
+		lineageTag: 91f2c687-76fd-44bf-8dc9-25b422d6dcba
+		summarizeBy: none
+		sourceColumn: Gerente
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Cadastro lojas' = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\Iasmin Meneses\Downloads\drive-download-20250621T180504Z-1-001\Cadastro Lojas.xlsx"), null, true),
+				    Planilha1_Sheet = Fonte{[Item="Planilha1",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Planilha1_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Cadastro Lojas - 2024", type any}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type any}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado",{"Column7"}),
+				    #"Linhas em Branco Removidas" = Table.SelectRows(#"Colunas Removidas", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null}))),
+				    #"Cabeçalhos Promovidos1" = Table.PromoteHeaders(#"Linhas em Branco Removidas", [PromoteAllScalars=true]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos1",{{"Id Loja", Int64.Type}, {"Localidade", type text}, {"Cidade", type text}, {"Tipo Loja", type text}, {"Nome Gerente", type text}, {"Sobrenome Gerente", type text}}),
+				    #"Dividir Coluna por Delimitador" = Table.SplitColumn(#"Tipo Alterado1", "Localidade", Splitter.SplitTextByDelimiter(" - ", QuoteStyle.Csv), {"Localidade.1", "Localidade.2"}),
+				    #"Tipo Alterado2" = Table.TransformColumnTypes(#"Dividir Coluna por Delimitador",{{"Localidade.1", type text}, {"Localidade.2", type text}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado2",{{"Localidade.1", "País"}, {"Localidade.2", "Continente"}}),
+				    #"Colunas Mescladas" = Table.CombineColumns(#"Colunas Renomeadas",{"Nome Gerente", "Sobrenome Gerente"},Combiner.CombineTextByDelimiter(" ", QuoteStyle.None),"Gerente")
+				in
+				    #"Colunas Mescladas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

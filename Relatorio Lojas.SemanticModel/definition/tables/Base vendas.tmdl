@@ -1,0 +1,139 @@
+table 'Base vendas'
+	lineageTag: dbf6b974-4ed0-4955-8102-643de836b047
+
+	measure 'Total Vendas' = SUM('Base vendas'[Qtd. Vendida])
+		formatString: 0
+		lineageTag: 90c26618-58ac-48a4-a8ec-03099984e2d2
+
+	measure 'Total Devoluções' = SUM('Base vendas'[Qtd. Devolvida])
+		formatString: 0
+		lineageTag: f7068748-ffe8-4e26-abd1-c4ffba0ea5df
+
+	measure %Devoluções = [Total Devoluções]/[Total Vendas]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9e6424e8-e509-41ee-8e41-fd344fbd1b3a
+
+	measure 'Faturamento Total' = SUM('Base vendas'[Faturamento venda])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a94698df-eebb-40fe-8dfd-8622eb832c9f
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Ticket Médio' = AVERAGE('Base vendas'[Faturamento venda])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: ffe6b0ab-aedd-4c1c-913a-cf185210f19c
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'ticket real' = [Faturamento Total]/sum('Base vendas'[Qtd. Vendida])
+		lineageTag: 453d7f76-b02c-4d9f-b1fa-5a13dd4e04a9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Vendas Online' = CALCULATE(SUM('Base vendas'[Qtd. Vendida]),'Cadastro lojas'[Tipo Loja]="Online")
+		formatString: 0
+		lineageTag: 1a570d80-7bce-4d63-a162-a5a2edaaf33d
+
+	measure '%vendas online' = 'Base vendas'[Vendas Online]/[Total Vendas]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e3202180-9e9f-4328-bce4-5c88ecf1511c
+
+	measure 'Total clientes' = DISTINCTCOUNT('Base vendas'[Id Cliente])
+		formatString: 0
+		lineageTag: 884638d9-b437-46b2-b659-ca82f94473be
+
+	column 'Data Venda'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2d2c65b5-bfca-4b03-9f9e-11c0aa6ab334
+		summarizeBy: none
+		sourceColumn: Data Venda
+
+		variation Variation
+			isDefault
+			relationship: 74cc8a41-cf89-476c-ac00-ba1bb6a02486
+			defaultHierarchy: LocalDateTable_95db01be-13cc-47da-bc90-e7b8b42d0cc3.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Id Loja'
+		dataType: int64
+		formatString: 0
+		lineageTag: c6595c57-5cf1-41ea-9e46-3ab1e7df119f
+		summarizeBy: none
+		sourceColumn: Id Loja
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Id Produto'
+		dataType: int64
+		formatString: 0
+		lineageTag: aeab1c3f-356e-475e-90da-3c57b0c8e1a1
+		summarizeBy: none
+		sourceColumn: Id Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Id Cliente'
+		dataType: int64
+		formatString: 0
+		lineageTag: 971f5bdc-5fc6-4be4-a671-86d799bead56
+		summarizeBy: none
+		sourceColumn: Id Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Qtd. Vendida'
+		dataType: int64
+		formatString: 0
+		lineageTag: fe64fba6-7220-4e56-9ac7-349bb1981963
+		summarizeBy: sum
+		sourceColumn: Qtd. Vendida
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Qtd. Devolvida'
+		dataType: int64
+		formatString: 0
+		lineageTag: 51440931-8d90-4c26-8632-a035ac7dd9e8
+		summarizeBy: sum
+		sourceColumn: Qtd. Devolvida
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Preco Unitario'
+		dataType: double
+		formatString: 0
+		lineageTag: cdc65e97-d0c9-45c5-8593-a43557025bf5
+		summarizeBy: sum
+		sourceColumn: Preco Unitario
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Faturamento venda'
+		dataType: double
+		lineageTag: 855b8652-1d88-4c26-8fca-52a813276042
+		summarizeBy: sum
+		sourceColumn: Faturamento venda
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Base vendas' = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.Combine({#"2022", #"2023", #"2024"}),
+				    #"Coluna dividida" = Table.TransformColumns(Fonte, {{"Preco Unitario", each _ / 100, type number}}),
+				    #"Multiplicação Inserida" = Table.AddColumn(#"Coluna dividida", "Multiplicação", each [Qtd. Vendida] * [Preco Unitario], type number),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Multiplicação Inserida",{{"Multiplicação", "Faturamento venda"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

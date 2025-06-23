@@ -1,0 +1,26 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Cadastro lojas","Cadastro Cientes","Cadastro Produtos","2022","2023","2024","Base vendas"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.144.878.0 (25.06)+9cca29236de5114792f4d7188221f91ad4a5cc50
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'Cadastro lojas'
+ref table 'Cadastro Cientes'
+ref table DateTableTemplate_8b861e18-338c-44e2-8cc1-26edd7314c0c
+ref table LocalDateTable_e7ee3278-0d14-4c60-90bd-a0760e41aba4
+ref table 'Cadastro Produtos'
+ref table 'Base vendas'
+ref table LocalDateTable_95db01be-13cc-47da-bc90-e7b8b42d0cc3
+
+ref cultureInfo pt-BR
+

@@ -1,0 +1,74 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 288.00001356336804
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 261.946000680209
+          },
+          "nodeIndex": "Cadastro lojas",
+          "nodeLineageTag": "2391d0d8-9cf4-4c57-ae5c-200b081c46c3",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 551.86697015545633
+          },
+          "nodeIndex": "Base vendas",
+          "nodeLineageTag": "dbf6b974-4ed0-4955-8102-643de836b047",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 577.26244092952447,
+            "y": 263.25327643298044
+          },
+          "nodeIndex": "Cadastro Cientes",
+          "nodeLineageTag": "9bd2a547-8c58-41e8-81b8-f04b67511c8c",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 287.77777777777771,
+            "y": 261.93135949044256
+          },
+          "nodeIndex": "Cadastro Produtos",
+          "nodeLineageTag": "fde45d6c-c010-4918-b6fe-6d1874d4d9a7",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 90,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

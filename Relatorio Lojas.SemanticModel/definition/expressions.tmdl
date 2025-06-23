@@ -1,0 +1,42 @@
+expression 2022 =
+		let
+		    Fonte = Excel.Workbook(File.Contents("C:\Users\Iasmin Meneses\Downloads\drive-download-20250621T180504Z-1-001\Base Vendas - 2022.xlsx"), null, true),
+		    #"2022_Sheet" = Fonte{[Item="2022",Kind="Sheet"]}[Data],
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"2022_Sheet", [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Data Venda", type date}, {"Id Loja", Int64.Type}, {"Id Produto", Int64.Type}, {"Id Cliente", Int64.Type}, {"Qtd. Vendida", Int64.Type}, {"Qtd. Devolvida", Int64.Type}, {"Preco Unitario", Int64.Type}})
+		in
+		    #"Tipo Alterado"
+	lineageTag: 7398fcac-480f-4c66-a49a-a64704e6788f
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression 2023 =
+		let
+		    Fonte = Excel.Workbook(File.Contents("C:\Users\Iasmin Meneses\Downloads\drive-download-20250621T180504Z-1-001\Base Vendas - 2023.xlsx"), null, true),
+		    #"2023_Sheet" = Fonte{[Item="2023",Kind="Sheet"]}[Data],
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"2023_Sheet", [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Data Venda", type date}, {"Id Loja", Int64.Type}, {"Id Produto", Int64.Type}, {"Id Cliente", Int64.Type}, {"Qtd. Vendida", Int64.Type}, {"Qtd. Devolvida", Int64.Type}, {"Preco Unitario", Int64.Type}})
+		in
+		    #"Tipo Alterado"
+	lineageTag: f99a14a7-e513-4b43-b4e7-b54fae1b6807
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
+expression 2024 =
+		let
+		    Fonte = Excel.Workbook(File.Contents("C:\Users\Iasmin Meneses\Downloads\drive-download-20250621T180504Z-1-001\Base Vendas - 2024.xlsx"), null, true),
+		    #"2024_Sheet" = Fonte{[Item="2024",Kind="Sheet"]}[Data],
+		    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"2024_Sheet", [PromoteAllScalars=true]),
+		    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Data Venda", type date}, {"Id Loja", Int64.Type}, {"Id Produto", Int64.Type}, {"Id Cliente", Int64.Type}, {"Qtd. Vendida", Int64.Type}, {"Qtd. Devolvida", Int64.Type}, {"Preco Unitario", Int64.Type}})
+		in
+		    #"Tipo Alterado"
+	lineageTag: ba515dca-8ee9-44ff-8447-5b7f297486b0
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,22 @@
+relationship bea33648-365c-44fb-9cfb-fd979c9a28d7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Cadastro Cientes'.'Data de Nacimento'
+	toColumn: LocalDateTable_e7ee3278-0d14-4c60-90bd-a0760e41aba4.Date
+
+relationship 74cc8a41-cf89-476c-ac00-ba1bb6a02486
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Base vendas'.'Data Venda'
+	toColumn: LocalDateTable_95db01be-13cc-47da-bc90-e7b8b42d0cc3.Date
+
+relationship 313de3b3-bb20-6cc7-2d5e-3d2dd6343ea8
+	fromColumn: 'Base vendas'.'Id Loja'
+	toColumn: 'Cadastro lojas'.'Id Loja'
+
+relationship 04652973-4927-b810-3254-a8a0275be0ad
+	fromColumn: 'Base vendas'.'Id Produto'
+	toColumn: 'Cadastro Produtos'.'Id Produto'
+
+relationship af0104c0-5f4b-951d-357a-8a985e497414
+	fromColumn: 'Base vendas'.'Id Cliente'
+	toColumn: 'Cadastro Cientes'.'Id Cliente'
+

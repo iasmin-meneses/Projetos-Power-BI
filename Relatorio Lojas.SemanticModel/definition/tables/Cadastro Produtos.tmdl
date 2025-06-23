@@ -1,0 +1,73 @@
+table 'Cadastro Produtos'
+	lineageTag: fde45d6c-c010-4918-b6fe-6d1874d4d9a7
+
+	column 'Id Produto'
+		dataType: int64
+		formatString: 0
+		lineageTag: 78b9325d-a885-4457-99b3-293b59210950
+		summarizeBy: none
+		sourceColumn: Id Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome Produto'
+		dataType: string
+		lineageTag: 829db456-68a3-4aec-8c22-88563930532e
+		summarizeBy: none
+		sourceColumn: Nome Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Categoria
+		dataType: string
+		lineageTag: 826ed30c-036b-431f-9ea4-848dc7fadb86
+		summarizeBy: none
+		sourceColumn: Categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column Marca
+		dataType: string
+		lineageTag: 6b610dc4-b980-4189-9e19-14b976783b99
+		summarizeBy: none
+		sourceColumn: Marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Preço Unit.'
+		dataType: double
+		lineageTag: 93217517-a2ab-4ebb-8055-9d9cd8d251ce
+		summarizeBy: none
+		sourceColumn: Preço Unit.
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Custo Unit.'
+		dataType: double
+		lineageTag: 2f166dc1-63e4-4463-95ed-359d658b6b25
+		summarizeBy: none
+		sourceColumn: Custo Unit.
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Cadastro Produtos' = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\Iasmin Meneses\Downloads\drive-download-20250621T180504Z-1-001\Cadastro Produto.xlsx"), null, true),
+				    Produto_Sheet = Fonte{[Item="Produto",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Produto_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Id Produto", Int64.Type}, {"Nome Produto", type text}, {"Categoria", type text}, {"Marca", type text}, {"Preço Unit.", Int64.Type}, {"Custo Unit.", Int64.Type}}),
+				    #"Coluna dividida" = Table.TransformColumns(#"Tipo Alterado", {{"Preço Unit.", each _ / 100, type number}}),
+				    #"Coluna dividida1" = Table.TransformColumns(#"Coluna dividida", {{"Custo Unit.", each _ / 100, type number}})
+				in
+				    #"Coluna dividida1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -33,8 +33,7 @@ O objetivo deste dashboard é analisar o desempenho comercial da empresa, permit
 - Construção de dashboards interativos e responsivos
 - Análise de indicadores de negócio
 
-![dashboard lojas.png](./assets/dashboard lojas.png)
-
+![Image](https://github.com/user-attachments/assets/898798c7-2da9-43d9-b46e-90ee1566e144)
 
 
 ## 👩‍💻 Sobre mim
